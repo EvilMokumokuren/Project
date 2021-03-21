@@ -164,7 +164,7 @@ Coord getPlayerCoord(Game& rGame)
 		} while ((Step.x <= 0) || (Step.y <= 0) || (Step.x > 4) || (Step.y > 4) || rGame.ptrField[Step.y - 1][Step.x - 1] != Symbol_Zero);
 	}
 	
-	else
+	if (rGame.SizeX == 5)
 	{
 		do {
 			cout << endl << "Введите X: ";
@@ -1242,6 +1242,8 @@ int main()
 	} while ((game.SizeX < 3) || (game.SizeX > 5));
 	game.SizeY = game.SizeX;
 
+	game.complexity = 0;
+
 	if (game.SizeY == 4)
 	{
 		do
@@ -1296,19 +1298,24 @@ int main()
 	{
 		cout << endl << "Поздравляем! Вы выиграли!" << endl;
 		cout << "Игра длилась " << winnig_time << " сек" << endl;
+		cin.get();
 	}
 
 	if (game.Progress == AI_WON)
 	{
 		cout << endl << "Выиграл компьютер!" << endl;
 		cout << "Игра длилась " << winnig_time << " сек" << endl;
+		cin.get();
 	}
 	
 	if (game.Progress == DRAW)
 	{
 		cout << endl << "НИЧЬЯ!" << endl;
 		cout << "Игра длилась " << winnig_time << " сек" << endl;
+		cin.get();
 	}	
+
+	cin.get();
 
 	DeleteMemory(game);
 }
