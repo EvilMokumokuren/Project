@@ -63,6 +63,18 @@ int32_t GetRandomNum(int32_t min, int32_t max)
 	return dis(generator);
 }
 
+// проверка корректности символа
+void CheckSymbol()
+{
+	if (cin.fail()) // если предыдущее извлечение оказалось неудачным,
+	{
+		cin.clear(); // то возвращаем cin в 'обычный' режим работы
+		cin.ignore(32767, '\n'); // и удаляем значения предыдущего ввода из входного буфера
+		cout << "Пожалуйста, введите целочисленное число!" << endl;
+	}
+	return;
+}
+
 // прорисовка поля
 void PrintField(Game& rGame)
 {
@@ -79,7 +91,15 @@ void PrintField(Game& rGame)
 		cout << "Для победы необходимо сложить комбинацию из 5 символов" << endl;
 	}
 	cout << endl;
-	cout << "     ";
+	cout << "       ";
+	for (size_t j = 0; j < rGame.SizeX; j++)
+	{
+		cout << "X" << "   ";
+	}
+	
+	cout << endl;
+	cout << "       ";
+
 	for (size_t j = 0; j < rGame.SizeX; j++)
 	{
 		cout << (j + 1) << "   ";
@@ -88,7 +108,7 @@ void PrintField(Game& rGame)
 
 	for (size_t i = 0; i < rGame.SizeY; i++)
 	{
-		cout << " " << (i + 1) << " | ";
+		cout << " " << "Y" << " " << (i + 1) << " | ";
 
 		for (size_t j = 0; j < rGame.SizeX; j++)
 		{
@@ -147,8 +167,10 @@ Coord getPlayerCoord(Game& rGame)
 		do {
 			cout << endl << "Введите X: ";
 			cin >> Step.x;
+			CheckSymbol();
 			cout << "Введите Y: ";
 			cin >> Step.y;	
+			CheckSymbol();
 
 		} while ((Step.x <= 0) || (Step.y <= 0) || (Step.x > 3) || (Step.y > 3) || rGame.ptrField[Step.y - 1][Step.x - 1] != Symbol_Zero);
 	}
@@ -158,8 +180,10 @@ Coord getPlayerCoord(Game& rGame)
 		do {
 			cout << endl << "Введите X: ";
 			cin >> Step.x;
+			CheckSymbol();
 			cout << "Введите Y: ";
-			cin >> Step.y;		
+			cin >> Step.y;
+			CheckSymbol();
 
 		} while ((Step.x <= 0) || (Step.y <= 0) || (Step.x > 4) || (Step.y > 4) || rGame.ptrField[Step.y - 1][Step.x - 1] != Symbol_Zero);
 	}
@@ -169,8 +193,10 @@ Coord getPlayerCoord(Game& rGame)
 		do {
 			cout << endl << "Введите X: ";
 			cin >> Step.x;
+			CheckSymbol();
 			cout << "Введите Y: ";
 			cin >> Step.y;
+			CheckSymbol();
 
 		} while ((Step.x <= 0) || (Step.y <= 0) || (Step.x > 5) || (Step.y > 5) || rGame.ptrField[Step.y - 1][Step.x - 1] != Symbol_Zero);
 	}
@@ -358,6 +384,54 @@ GameProgress WhoWin(Game& rGame)
 						return HUMAN_WON;
 					}
 					if (rGame.ptrField[1][2] == rGame.ai)
+					{
+						return AI_WON;
+					}
+				}
+
+				if ((rGame.ptrField[0][1] == rGame.ptrField[1][2]) && (rGame.ptrField[0][1] == rGame.ptrField[2][3]))
+				{
+					if (rGame.ptrField[0][1] == rGame.human)
+					{
+						return HUMAN_WON;
+					}
+					if (rGame.ptrField[0][1] == rGame.ai)
+					{
+						return AI_WON;
+					}
+				}
+
+				if ((rGame.ptrField[1][0] == rGame.ptrField[2][1]) && (rGame.ptrField[1][0] == rGame.ptrField[3][2]))
+				{
+					if (rGame.ptrField[1][0] == rGame.human)
+					{
+						return HUMAN_WON;
+					}
+					if (rGame.ptrField[1][0] == rGame.ai)
+					{
+						return AI_WON;
+					}
+				}
+
+				if ((rGame.ptrField[0][2] == rGame.ptrField[1][1]) && (rGame.ptrField[0][2] == rGame.ptrField[2][0]))
+				{
+					if (rGame.ptrField[0][2] == rGame.human)
+					{
+						return HUMAN_WON;
+					}
+					if (rGame.ptrField[0][2] == rGame.ai)
+					{
+						return AI_WON;
+					}
+				}
+
+				if ((rGame.ptrField[1][3] == rGame.ptrField[2][2]) && (rGame.ptrField[1][3] == rGame.ptrField[3][1]))
+				{
+					if (rGame.ptrField[1][3] == rGame.human)
+					{
+						return HUMAN_WON;
+					}
+					if (rGame.ptrField[1][3] == rGame.ai)
 					{
 						return AI_WON;
 					}
@@ -602,6 +676,150 @@ GameProgress WhoWin(Game& rGame)
 					return AI_WON;
 				}
 			}
+
+			if ((rGame.ptrField[2][0] == rGame.ptrField[1][1]) && (rGame.ptrField[2][0] == rGame.ptrField[0][2]))
+			{
+				if (rGame.ptrField[2][0] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[2][0] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
+
+			if ((rGame.ptrField[3][0] == rGame.ptrField[2][1]) && (rGame.ptrField[3][0] == rGame.ptrField[1][2]))
+			{
+				if (rGame.ptrField[3][0] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[3][0] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
+
+			if ((rGame.ptrField[2][1] == rGame.ptrField[1][2]) && (rGame.ptrField[2][1] == rGame.ptrField[0][3]))
+			{
+				if (rGame.ptrField[2][1] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[2][1] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
+
+			if ((rGame.ptrField[4][1] == rGame.ptrField[3][2]) && (rGame.ptrField[4][1] == rGame.ptrField[2][3]))
+			{
+				if (rGame.ptrField[4][1] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[4][1] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
+
+			if ((rGame.ptrField[3][2] == rGame.ptrField[2][3]) && (rGame.ptrField[3][2] == rGame.ptrField[1][4]))
+			{
+				if (rGame.ptrField[3][2] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[3][2] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
+
+			if ((rGame.ptrField[4][2] == rGame.ptrField[3][3]) && (rGame.ptrField[4][2] == rGame.ptrField[2][4]))
+			{
+				if (rGame.ptrField[4][2] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[4][2] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
+
+			if ((rGame.ptrField[2][0] == rGame.ptrField[3][1]) && (rGame.ptrField[2][0] == rGame.ptrField[4][2]))
+			{
+				if (rGame.ptrField[2][0] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[2][0] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
+
+			if ((rGame.ptrField[1][0] == rGame.ptrField[2][1]) && (rGame.ptrField[1][0] == rGame.ptrField[3][2]))
+			{
+				if (rGame.ptrField[1][0] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[1][0] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
+
+			if ((rGame.ptrField[2][1] == rGame.ptrField[3][2]) && (rGame.ptrField[2][1] == rGame.ptrField[4][3]))
+			{
+				if (rGame.ptrField[2][1] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[2][1] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
+
+			if ((rGame.ptrField[0][1] == rGame.ptrField[1][2]) && (rGame.ptrField[0][1] == rGame.ptrField[2][3]))
+			{
+				if (rGame.ptrField[0][1] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[0][1] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
+
+			if ((rGame.ptrField[1][2] == rGame.ptrField[2][3]) && (rGame.ptrField[1][2] == rGame.ptrField[3][4]))
+			{
+				if (rGame.ptrField[1][2] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[1][2] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
+
+			if ((rGame.ptrField[0][2] == rGame.ptrField[1][3]) && (rGame.ptrField[0][2] == rGame.ptrField[2][4]))
+			{
+				if (rGame.ptrField[0][2] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[0][2] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
 		}
 		if (rGame.complexity == 2)
 		{
@@ -696,6 +914,50 @@ GameProgress WhoWin(Game& rGame)
 					return HUMAN_WON;
 				}
 				if (rGame.ptrField[1][3] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
+			if ((rGame.ptrField[0][1] == rGame.ptrField[1][2]) && (rGame.ptrField[0][1] == rGame.ptrField[2][3]) && (rGame.ptrField[0][1] == rGame.ptrField[3][4]))
+			{
+				if (rGame.ptrField[0][1] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[0][1] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
+			if ((rGame.ptrField[1][0] == rGame.ptrField[2][1]) && (rGame.ptrField[1][0] == rGame.ptrField[3][2]) && (rGame.ptrField[1][0] == rGame.ptrField[4][3]))
+			{
+				if (rGame.ptrField[1][0] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[1][0] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
+			if ((rGame.ptrField[3][0] == rGame.ptrField[2][1]) && (rGame.ptrField[3][0] == rGame.ptrField[1][2]) && (rGame.ptrField[3][0] == rGame.ptrField[0][3]))
+			{
+				if (rGame.ptrField[3][0] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[3][0] == rGame.ai)
+				{
+					return AI_WON;
+				}
+			}
+			if ((rGame.ptrField[4][1] == rGame.ptrField[3][2]) && (rGame.ptrField[4][1] == rGame.ptrField[2][3]) && (rGame.ptrField[4][1] == rGame.ptrField[1][4]))
+			{
+				if (rGame.ptrField[4][1] == rGame.human)
+				{
+					return HUMAN_WON;
+				}
+				if (rGame.ptrField[4][1] == rGame.ai)
 				{
 					return AI_WON;
 				}
@@ -1238,7 +1500,9 @@ int main()
 	do
 	{
 		cout << "Введите размер игрового поля (3x3, 4х4 или 5х5, вводить нужно 1 цифру): ";
-		cin >> game.SizeX;
+		cin >> game.SizeX;		
+		CheckSymbol();
+
 	} while ((game.SizeX < 3) || (game.SizeX > 5));
 	game.SizeY = game.SizeX;
 
@@ -1250,6 +1514,8 @@ int main()
 		{
 			cout << "Введите сложность игры (1, в случае победы комбинаций из 3 символов, 2 - из 4): ";
 			cin >> game.complexity;
+			CheckSymbol();
+
 		} while ((game.complexity < 1) || (game.complexity > 2));
 	}
 
@@ -1259,6 +1525,8 @@ int main()
 		{
 			cout << "Введите сложность игры (1, в случае победы комбинаций из 3 символов, 2 - из 4, 3 - из 5): ";
 			cin >> game.complexity;
+			CheckSymbol();
+
 		} while ((game.complexity < 1) || (game.complexity > 3));
 	}
 	
